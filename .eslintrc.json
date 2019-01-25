@@ -1,0 +1,51 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "extends": ["plugin:prettier/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2016
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "strict": "error",
+    "no-console": "off",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-implicit-globals": "error",
+    "no-control-regex":"off",
+    "no-empty-function": "error",
+    "no-unused-vars": "warn",
+    "no-undefined": "error",
+    "no-undef-init": "error",
+    "no-param-reassign": "warn",
+    "no-unneeded-ternary": "error",
+    "no-nested-ternary": "error",
+    "no-throw-literal": "error",
+    "no-tabs": "error",
+    "indent": [
+      "error",
+      4
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "block-scoped-var": "warn",
+    "prefer-const": "warn",
+    "prefer-arrow-callback": "error",
+    "prefer-template": "error",
+    "default-case": "warn",
+    "require-await": "error",
+    "yoda": "warn",
+    "no-new-func": "error",
+    "no-new-wrappers": "error",
+    "handle-callback-err": "error"
+  },
+  "plugins": ["prettier"]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "dev.to-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarthology/dev.to-cli.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarthology/dev.to-cli/issues"
+  },
+  "homepage": "https://github.com/sarthology/dev.to-cli#readme",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "cheerio": "^1.0.0-rc.2",
+    "inquirer": "^6.2.1",
+    "opn": "^5.4.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
+    "x-ray": "^2.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.1"
+  }
+}
