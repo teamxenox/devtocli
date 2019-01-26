@@ -1,8 +1,11 @@
-const crawler = require('./util/crawler');
+
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const opn = require('opn');
 const program = require('commander');
+
+const crawler = require('./util/crawler');
+const countdown = require('./util/spinner')
 
 let articles;
 
@@ -22,12 +25,14 @@ program
 
 program.parse(process.argv);
 
-if(program.args.length === 0){
+if (program.args.length === 0) {
+    countdown.start();
     crawler.fetchHome().then(data => {
+        countdown.stop();
         articles = data.filter(data => data.title != undefined);
         askQuestion(articles.map(data => data.title));
     })
-} 
+}
 
 const askQuestion = (titles) => {
     inquirer.prompt([{
