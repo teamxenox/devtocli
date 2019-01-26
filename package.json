@@ -22,6 +22,7 @@
     "clui": "^0.3.6",
     "commander": "^2.19.0",
     "inquirer": "^6.2.1",
+    "inquirer-autocomplete-prompt": "^1.0.1",
     "opn": "^5.4.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",

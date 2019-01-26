@@ -44,7 +44,7 @@ const fetchByTags =(tag)=>{
 
 /**
  * This is a function to fetch Article from link.
- * @param {string} url - url of article to fetched
+ * @param {string} null 
  * @returns {Promise<Array>} The promise with data scrapped from webpage.
  */
 
@@ -52,4 +52,29 @@ const fetchArticle =(url)=>{
     return xray(url, '#article-body | trim').then(data=>console.log(data));
 } 
 
-module.exports = { fetchHome , fetchArticle , fetchByTags};
+/**
+ * This is a function to fetch all poplar tags from dev.to.
+ * @param {null} url - url of article to fetched
+ * @returns {Promise<Array>} The promise with data scrapped from webpage.
+ */
+
+const fetchTags=()=>{
+  return xray('https://dev.to/tags', ['.articles-list .tag-list-container h2'])
+    .then(data=>data.map(data=>data.split("#")[1]));
+} 
+
+/**
+ * This is a function to Search posts on `dev.to` by keyword.
+ * @param {string} keyword - Sear of article to fetched
+ * @returns {Promise<Array>} The promise with data scrapped from webpage.
+ */
+
+const searchPost=(keyword)=>{
+  // return xray('https://dev.to/search?q='+keyword+'&filters=class_name:Article','#substories .single-article', [{
+  //   title: '.index-article-link .content h3 | trim',
+  //   link:'.index-article-link@href',
+  // }])
+  return xray('https://dev.to/search?q='+keyword+'&filters=class_name:Article','body')
+} 
+
+module.exports = { fetchHome , fetchArticle , fetchByTags, fetchTags, searchPost};

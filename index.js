@@ -1,4 +1,3 @@
-
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const opn = require('opn');
@@ -9,19 +8,40 @@ const countdown = require('./util/spinner')
 
 let articles;
 
+inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
+
 program
     .version('0.0.0')
 
 
 program
-    .command("tag <tag>")
+    .command("tag [tag]")
     .alias("l")
     .action((tag) => {
-        crawler.fetchByTags(tag).then(data => {
-            articles = data.filter(data => data.title != undefined);
-            askQuestion(articles.map(data => data.title));
+        if(tag){
+            crawler.fetchByTags(tag).then(data => {
+                articles = data.filter(data => data.title != undefined);
+                askQuestion(articles.map(data => data.title));
+            });
+        }
+        else{
+            crawler.fetchTags().then(data=>{
+                searchTags(data);
+            });
+        }
+    })
+
+program
+    .command("search <keyword>")
+    .alias("s")
+    .action((keyword) => {
+        crawler.searchPost(keyword).then(data => {
+            console.log(data);
+            // articles = data.filter(data => data.title != undefined);
+            // askQuestion(articles.map(data => data.title));
         });
     })
+
 
 program.parse(process.argv);
 
@@ -38,7 +58,7 @@ const askQuestion = (titles) => {
     inquirer.prompt([{
             type: 'list',
             name: 'title',
-            message: 'Select the story 🤓',
+            message: '📚 Here are your posts:',
             choices: titles,
             paginated: true
         }])
@@ -47,6 +67,26 @@ const askQuestion = (titles) => {
         });
 }
 
+const searchTags = (tags) => {    
+    inquirer.prompt([{
+        type: 'autocomplete',
+        name: 'tag',
+        message: '🕵🏻‍♂️  Search popular tags:',
+        pageSize: 4,
+        source: function(answers,input) {
+            return new Promise((resolve)=>{
+                resolve(tags.filter(data=>data.indexOf(input)>-1))
+            });
+        }
+      }]).then((answers)=>{
+        countdown.start();
+        crawler.fetchByTags(answers.tag).then(data => {
+            countdown.stop();
+            articles = data.filter(data => data.title != undefined);
+            askQuestion(articles.map(data => data.title));
+        });
+      })
+}
 const openLink = (answers) => {
     opn(articles.find(data => data.title === answers.title).link);
 }
