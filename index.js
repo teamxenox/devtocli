@@ -1,14 +1,13 @@
-const chalk = require('chalk');
-const inquirer = require('inquirer');
-const opn = require('opn');
 const program = require('commander');
+const opn = require('opn');
+
 
 const crawler = require('./util/crawler');
-const countdown = require('./util/spinner')
+const countdown = require('./util/spinner');
+const prompt = require('./util/prompt');
 
 let articles;
 
-inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
 
 program
     .version('0.0.0')
@@ -21,11 +20,22 @@ program
         if (tag) {
             crawler.fetchByTags(tag).then(data => {
                 articles = data.filter(data => data.title != undefined);
-                askQuestion(articles.map(data => data.title));
+                prompt.showPosts(articles.map(data => data.title)).then(answers => {
+                    openLink(answers);
+                });
             });
         } else {
             crawler.fetchTags().then(data => {
-                searchTags(data);
+                prompt.searchTags(data).then((answers) => {
+                    countdown.start();
+                    crawler.fetchByTags(answers.tag).then(data => {
+                        countdown.stop();
+                        articles = data.filter(data => data.title != undefined);
+                        prompt.showPosts(articles.map(data => data.title)).then(answers => {
+                            openLink(answers);
+                        });
+                    });
+                });
             });
         }
     })
@@ -35,7 +45,6 @@ program
     .alias("s")
     .action((keyword) => {
         countdown.start();
-
         crawler.searchPost(keyword).then(data => {
             countdown.stop();
             articles = data.hits.map(post => {
@@ -44,7 +53,9 @@ program
                     link: "https://dev.to" + post.path
                 }
             });
-            askQuestion(articles.map(data => data.title));
+            prompt.showPosts(articles.map(data => data.title)).then(answers => {
+                openLink(answers);
+            });
         });
     })
 
@@ -56,43 +67,12 @@ if (program.args.length === 0) {
     crawler.fetchHome().then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        askQuestion(articles.map(data => data.title));
-    })
-}
-
-const askQuestion = (titles) => {
-    inquirer.prompt([{
-            type: 'list',
-            name: 'title',
-            message: '📚 Here are your posts:',
-            choices: titles,
-            paginated: true
-        }])
-        .then(answers => {          
+        prompt.showPosts(articles.map(data => data.title)).then(answers => {
             openLink(answers);
         });
-}
-
-const searchTags = (tags) => {
-    inquirer.prompt([{
-        type: 'autocomplete',
-        name: 'tag',
-        message: '🕵🏻‍♂️  Search popular tags:',
-        pageSize: 4,
-        source: function (answers, input) {
-            return new Promise((resolve) => {
-                resolve(tags.filter(data => data.indexOf(input) > -1))
-            });
-        }
-    }]).then((answers) => {
-        countdown.start();
-        crawler.fetchByTags(answers.tag).then(data => {
-            countdown.stop();
-            articles = data.filter(data => data.title != undefined);
-            askQuestion(articles.map(data => data.title));
-        });
     })
 }
+
 const openLink = (answers) => {
     opn(articles.find(data => data.title === answers.title).link);
 }
