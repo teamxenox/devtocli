@@ -17,24 +17,14 @@ program
     .command("tag [tag]")
     .alias("l")
     .action((tag) => {
-        if (tag) {
-            crawler.fetchByTags(tag).then(data => {
-                articles = data.filter(data => data.title != undefined);
-                prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                    openLink(answers);
-                });
-            });
-        } else {
+        countdown.start();
+
+        if (tag) showPostsByTags(tag);
+
+        else {
             crawler.fetchTags().then(data => {
                 prompt.searchTags(data).then((answers) => {
-                    countdown.start();
-                    crawler.fetchByTags(answers.tag).then(data => {
-                        countdown.stop();
-                        articles = data.filter(data => data.title != undefined);
-                        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                            openLink(answers);
-                        });
-                    });
+                    showPostsByTags(answers.tag);
                 });
             });
         }
@@ -77,6 +67,18 @@ const openLink = (answers) => {
     opn(articles.find(data => data.title === answers.title).link);
 }
 
-const showArticle = (answers) => {
-    crawler.fetchArticle(articles.find(data => data.title === answers.title).link);
+/**
+ * This is a function to fetch top posts of a tags.
+ * @param {string} tag - tag by which posts will be fixed
+ * @returns {null} null
+ */
+
+const showPostsByTags = (tag) => {
+    crawler.fetchByTags(tag).then(data => {
+        countdown.stop();
+        articles = data.filter(data => data.title != undefined);
+        prompt.showPosts(articles.map(data => data.title)).then(answers => {
+            openLink(answers);
+        });
+    });
 }
