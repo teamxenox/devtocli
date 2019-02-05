@@ -34,7 +34,7 @@ const searchTags = (tags) => {
 
 const showPosts = (titles) => {
     return inquirer.prompt([{
-        type: 'list',
+        type: 'rawlist',
         name: 'title',
         message: '📚 Here are your posts:',
         choices: titles,

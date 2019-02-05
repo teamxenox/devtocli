@@ -1,17 +1,14 @@
 {
-  "name": "dev.to-cli",
+  "name": "devtocli",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A simple package to let you use Dev.to in Terminal",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sarthology/dev.to-cli.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Sarthology",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sarthology/dev.to-cli/issues"
   },
@@ -34,6 +31,6 @@
   },
   "preferGlobal": true,
   "bin": {
-    "cricli": "index.js"
+    "devto": "src/index.js"
   }
 }
