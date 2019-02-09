@@ -67,6 +67,7 @@ if (program.args.length === 0) {
 
 const openLink = (answers) => {
     opn(articles.find(data => data.title === answers.title).link);
+    process.exit();
 }
 
 /**
