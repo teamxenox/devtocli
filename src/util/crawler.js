@@ -27,7 +27,9 @@ const fetchHome = () => {
     author: 'h4 a | trim',
     link: '.index-article-link@href',
     tag: ['.tags .tag | trim']
-  }]);
+  }]).then(data => {
+    return formatTitle(data);
+  });
 }
 
 /**
@@ -42,7 +44,9 @@ const fetchByTags = (tag) => {
     author: 'h4 a | trim',
     link: '.index-article-link@href',
     tag: ['.tags .tag | trim']
-  }]);
+  }]).then(data => {
+    return formatTitle(data);
+  });
 }
 
 /**
@@ -57,7 +61,9 @@ const fetchByAuthor = (username) => {
     author: 'h4 a | trim',
     link: '.index-article-link@href',
     tag: ['.tags .tag | trim']
-  }]);
+  }]).then(data => {
+    return formatTitle(data);
+  });
 }
 
 /**
@@ -83,7 +89,7 @@ const fetchTags = () => {
 
 /**
  * This is a function to Search posts on `dev.to` by keyword.
- * @param {string} keyword - Sear of article to fetched
+ * @param {string} keyword - Keyword of article to fetched
  * @returns {Promise<Array>} The promise with data scrapped from webpage.
  */
 
@@ -99,10 +105,25 @@ const searchPost = (keyword) => {
     ],
     exactOnSingleWordQuery: "none",
   }
- 
-  return index.search(keyword,searchObj);
+
+  return index.search(keyword, searchObj);
 
 }
+
+/**
+ * This is a function to Take the tag from the post title.
+ * @param {Array} posts - Posts to be edited
+ * @returns {Array} edited post
+ */
+const formatTitle = (posts) => {
+  return posts.map(post => {
+    post.tag.forEach(tag => {
+      if (post.title.indexOf(tag) > -1) post.title = post.title.split(tag)[1];
+    })
+    return post;
+  });
+}
+
 
 module.exports = {
   fetchHome,

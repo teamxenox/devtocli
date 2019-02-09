@@ -19,7 +19,6 @@ program
     .command("tag [tag]")
     .alias("l")
     .action((tag) => {
-        countdown.start();
 
         if (tag) showPostsByTags(tag);
 
@@ -91,6 +90,7 @@ const openLink = (answers) => {
  */
 
 const showPostsByTags = (tag) => {
+    countdown.start();
     crawler.fetchByTags(tag).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
