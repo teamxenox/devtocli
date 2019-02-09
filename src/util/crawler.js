@@ -46,6 +46,21 @@ const fetchByTags = (tag) => {
 }
 
 /**
+ * This is a function to fetch posts by a author from `dev.to` using the `x-ray` module.
+ * @param {string} username - username by which posts will be fetched
+ * @returns {Promise<Array>} The promise with data scrapped from webpage.
+ */
+
+const fetchByAuthor = (username) => {
+  return xray('https://dev.to/' + username, '#substories .single-article', [{
+    title: '.index-article-link .content h3 | trim',
+    author: 'h4 a | trim',
+    link: '.index-article-link@href',
+    tag: ['.tags .tag | trim']
+  }]);
+}
+
+/**
  * This is a function to fetch Article from link.
  * @param {string} null 
  * @returns {Promise<Array>} The promise with data scrapped from webpage.
@@ -94,5 +109,6 @@ module.exports = {
   fetchArticle,
   fetchByTags,
   fetchTags,
-  searchPost
+  searchPost,
+  fetchByAuthor
 };

@@ -51,6 +51,20 @@ program
         });
     })
 
+program
+    .command("author <username>")
+    .alias("a")
+    .action((username) => {
+        countdown.start();
+        crawler.fetchByAuthor(username).then(data => {
+            countdown.stop();
+            articles = data.filter(data => data.title != undefined);
+            prompt.showPosts(articles.map(data => data.title)).then(answers => {
+                openLink(answers);
+            });
+        });
+    })
+
 
 program.parse(process.argv);
 
