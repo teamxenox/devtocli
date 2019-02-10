@@ -42,7 +42,24 @@ const showPosts = (titles) => {
     }])
 }
 
+/**
+ * This is a function to show prompt for timeline suggestion in searching top posts
+ * @param {null} null 
+ * @returns {Promise} The promise with the timeline choosen
+ */
+
+const selectTimline = () => {
+    return inquirer.prompt([{
+        type: 'list',
+        name: 'timeline',
+        message: '📆 Please choose the timeline:',
+        choices: ["week","month","year","infinity"],
+        paginated: true
+    }])
+}
+
 module.exports = {
     showPosts,
-    searchTags
+    searchTags,
+    selectTimline
 };

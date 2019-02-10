@@ -14,10 +14,21 @@ let articles;
 program
     .version('0.0.0')
 
+program
+    .command("top [timeline]")
+    .action((timeline) => {
+
+        if (timeline)
+            showPostsByTimeline(timeline);
+
+        else
+            prompt.selectTimline().then(answers => showPostsByTimeline(answers.timeline));
+            
+    })
 
 program
     .command("tag [tag]")
-    .alias("l")
+    .alias("t")
     .action((tag) => {
 
         if (tag) showPostsByTags(tag);
@@ -85,7 +96,7 @@ const openLink = (answers) => {
 
 /**
  * This is a function to fetch top posts of a tags.
- * @param {string} tag - tag by which posts will be fixed
+ * @param {string} tag - tag by which posts will be fetched
  * @returns {null} null
  */
 
@@ -98,4 +109,21 @@ const showPostsByTags = (tag) => {
             openLink(answers);
         });
     });
+}
+
+/**
+ * This is a function to fetch top posts by time.
+ * @param {string} timeline - timeline by which posts will be fetched
+ * @returns {null} null
+ */
+
+const showPostsByTimeline = (timeline) => {
+    countdown.start();
+    crawler.fetchTop(timeline).then(data => {
+        countdown.stop();
+        articles = data.filter(data => data.title != undefined);
+        prompt.showPosts(articles.map(data => data.title)).then(answers => {
+            openLink(answers);
+        });
+    })
 }

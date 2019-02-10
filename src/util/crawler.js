@@ -33,6 +33,23 @@ const fetchHome = () => {
 }
 
 /**
+ * This is a function to fetch home feed of `dev.to` using the `x-ray` module.
+ * @param {null} null
+ * @returns {Promise<Array>} The promise with data scrapped from webpage.
+ */
+
+const fetchTop = (timeline) => {
+  return xray('https://dev.to/top/'+timeline, '#substories .single-article', [{
+    title: '.index-article-link .content h3 | trim',
+    author: 'h4 a | trim',
+    link: '.index-article-link@href',
+    tag: ['.tags .tag | trim']
+  }]).then(data => {
+    return formatTitle(data);
+  });
+}
+
+/**
  * This is a function to fetch feed by tags of `dev.to` using the `x-ray` module.
  * @param {string} tag - Tag by which articles will be fetched
  * @returns {Promise<Array>} The promise with data scrapped from webpage.
@@ -131,5 +148,6 @@ module.exports = {
   fetchByTags,
   fetchTags,
   searchPost,
-  fetchByAuthor
+  fetchByAuthor,
+  fetchTop
 };
