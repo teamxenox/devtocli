@@ -23,7 +23,7 @@ program
 
         else
             prompt.selectTimline().then(answers => showPostsByTimeline(answers.timeline));
-            
+
     })
 
 program
@@ -40,6 +40,22 @@ program
                 });
             });
         }
+    })
+
+program
+    .command("latest")
+    .alias("l")
+    .action(() => {
+        countdown.start();
+
+        crawler.fetchLatest().then(data => {
+            countdown.stop();
+            articles = data.filter(data => data.title != undefined);
+            prompt.showPosts(articles.map(data => data.title)).then(answers => {
+                openLink(answers);
+            });
+        })
+        
     })
 
 program
