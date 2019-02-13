@@ -36,7 +36,9 @@ Feel free to contribute to this project and treat it like your own. 😊
 
 ## License
 
-MIT License## Author
+MIT License
+
+## Author
 
 [Sarthak Sharma](https://twitter.com/sarthology)
 
