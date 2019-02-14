@@ -50,7 +50,7 @@ const showPostsByTimeline = (timeline) => {
 }
 
 program
-    .version('0.0.0')
+    .version('1.3.6')
 
 program
     .command("top [timeline]")
@@ -129,6 +129,11 @@ program
         });
     })
 
+// error on unknown commands
+program.on('command:*', function () {
+    console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
+    process.exit(1);
+  });
 
 program.parse(process.argv);
 

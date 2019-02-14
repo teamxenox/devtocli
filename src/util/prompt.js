@@ -33,6 +33,11 @@ const searchTags = (tags) => {
  */
 
 const showPosts = (titles) => {
+    if(titles.length === 0){
+        console.error("😱 No posts found. Please try again.");
+        process.exit(1);
+    }
+    
     return inquirer.prompt([{
         type: 'list',
         name: 'title',
