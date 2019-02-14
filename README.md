@@ -1,14 +1,14 @@
-![](https://i.imgur.com/EyS2e39.png)
+![](https://i.imgur.com/zPaxHsH.png)
 
 ## Dev.to CLI
 
 Wanted to get [Dev.to](https://www.dev.to/) on your terminal? Ahoy! now you can.
 
-## Screenshots
+## Usage
 
-![](https://media.giphy.com/media/fH66CTfLT0MVQaELjE/giphy.gif)
+#### 1. Check the top posts
 
-![](https://media.giphy.com/media/1AfrZtesZIOmcTN3wk/giphy.gif)
+![](https://media.giphy.com/media/pO3c8KoeQoUktf9Pmn/giphy.gif)
 
 ## Usage
 
@@ -66,7 +66,7 @@ Before running this locally you must have these installed
 
 It's built in node so the process to start this is really easy
 
-1. `npm install`
+1. `npm install devtocli -g`
 2. `devto`
 
 That's it, you will see it running in your terminal.
