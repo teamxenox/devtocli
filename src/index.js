@@ -10,6 +10,44 @@ const prompt = require('./util/prompt');
 
 let articles;
 
+const openLink = (answers) => {
+    opn(articles.find(data => data.title === answers.title).link);
+    process.exit();
+}
+
+/**
+ * This is a function to fetch top posts of a tags.
+ * @param {string} tag - tag by which posts will be fetched
+ * @returns {null} null
+ */
+
+const showPostsByTags = (tag) => {
+    countdown.start();
+    crawler.fetchByTags(tag).then(data => {
+        countdown.stop();
+        articles = data.filter(data => data.title != undefined);
+        prompt.showPosts(articles.map(data => data.title)).then(answers => {
+            openLink(answers);
+        });
+    });
+}
+
+/**
+ * This is a function to fetch top posts by time.
+ * @param {string} timeline - timeline by which posts will be fetched
+ * @returns {null} null
+ */
+
+const showPostsByTimeline = (timeline) => {
+    countdown.start();
+    crawler.fetchTop(timeline).then(data => {
+        countdown.stop();
+        articles = data.filter(data => data.title != undefined);
+        prompt.showPosts(articles.map(data => data.title)).then(answers => {
+            openLink(answers);
+        });
+    })
+}
 
 program
     .version('0.0.0')
@@ -97,45 +135,6 @@ program.parse(process.argv);
 if (program.args.length === 0) {
     countdown.start();
     crawler.fetchHome().then(data => {
-        countdown.stop();
-        articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
-    })
-}
-
-const openLink = (answers) => {
-    opn(articles.find(data => data.title === answers.title).link);
-    process.exit();
-}
-
-/**
- * This is a function to fetch top posts of a tags.
- * @param {string} tag - tag by which posts will be fetched
- * @returns {null} null
- */
-
-const showPostsByTags = (tag) => {
-    countdown.start();
-    crawler.fetchByTags(tag).then(data => {
-        countdown.stop();
-        articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
-    });
-}
-
-/**
- * This is a function to fetch top posts by time.
- * @param {string} timeline - timeline by which posts will be fetched
- * @returns {null} null
- */
-
-const showPostsByTimeline = (timeline) => {
-    countdown.start();
-    crawler.fetchTop(timeline).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
         prompt.showPosts(articles.map(data => data.title)).then(answers => {
