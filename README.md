@@ -1,4 +1,4 @@
-![](https://i.imgur.com/zPaxHsH.png)
+![](https://i.imgur.com/XHprWPp.png)
 
 ## Dev.to CLI
 
