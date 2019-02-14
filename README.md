@@ -10,7 +10,7 @@ Wanted to get [Dev.to](https://www.dev.to/) on your terminal? Ahoy! now you can.
 
 ![](https://media.giphy.com/media/pO3c8KoeQoUktf9Pmn/giphy.gif)
 
-You can get top post from Dev.to feed in your terminal using:
+You can get top posts from the Dev.to feed in your terminal using:
 
 ```
 devto
@@ -22,11 +22,15 @@ devto
 
 Easy post search using the tag, you can use
 
+
 ```
 devto tag javascript
 ```
 
-if you don't know the keyword, you can use the search tag feauture using
+
+if you don't know the keyword, you can use the search tag feature using
+
+![](https://media.giphy.com/media/7SHzSDVDi3M4z5o3nF/giphy.gif)
 
 ```
 devto tag
@@ -36,7 +40,7 @@ devto tag
 
 ![](https://media.giphy.com/media/2sYdeNhrIJysqiS9Of/giphy.gif)
 
-You can check 5 most recents posts of author using
+You can check 5 most recent posts of any author using
 
 ```
 devto author sarthology
@@ -46,35 +50,35 @@ devto author sarthology
 
 ![](https://media.giphy.com/media/300WBW4zkSiFNBBHNM/giphy.gif)
 
-You can check top posts on Dev.to by time frame using
+You can check top posts on Dev.to for a specific timeframe using
 
 ```
 devto top week
 ```
 
-options are `week` `month` `year` `infinity` or just to see options just type
+There are several options like `week` `month` `year` `infinity`. If you want to see the options just type
 
 ```
 devto top
 ```
 
-#### 5. Serach top posts by keyword
+#### 5. Search top posts by a keyword
 
 ![](https://media.giphy.com/media/2sj20bitpaOrwjIwGi/giphy.gif)
 
-Use the powerful search feature to find posts using keyword
+Use the powerful search feature to find posts using keywords
 
 ```
 devto search sarthology
 ```
 
-in this you can even search posts using tag, author name, title, basically anything.
+With this, you can even search posts using a tag, author name, title... basically anything.
 
 #### 6. Check latest posts on Dev.to
 
 ![](https://media.giphy.com/media/4WFhDHwrwB8Wq2EJFv/giphy.gif)
 
-You can also see the most latest posts on Dev.to using
+You can also see the latest posts on Dev.to using
 
 ```
 devto latest
@@ -85,7 +89,7 @@ devto latest
 Before running this locally you must have these installed
 
 - Node
-
+- npm
 ## Installing
 
 It's built in node so the process to start this is really easy
