@@ -1,4 +1,4 @@
-![](https://i.imgur.com/XHprWPp.png)
+<div align="center"><img src="https://i.imgur.com/XHprWPp.png"></div>
 
 ## Dev.to CLI
 
