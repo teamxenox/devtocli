@@ -11,6 +11,9 @@ const xray = Xray({
   filters: {
     trim: function (value) {
       return typeof value === 'string' ? value.trim() : value
+    },
+    removeNewLine: function (value) {
+      return value.replace(/\s\s+/g, ' ');
     }
   }
 });
@@ -103,6 +106,28 @@ const fetchByAuthor = (username) => {
 }
 
 /**
+ * This is a function to fetch profile details of a author from `dev.to` using the `x-ray` module.
+ * @param {string} username - username by which the profile details of author will be fetched
+ * @returns {Promise<Object>} The promise with profile details of author.
+ */
+
+const fetchAuthorProfile = (username) => {
+  return xray('https://dev.to/' + username, 'body', {
+    name: '.profile-details h1 span | trim',
+    desc: '.profile-details p | trim',
+    field: ['.key | trim'],
+    value: ['.value | trim | removeNewLine'],
+    links: ['.profile-details .social a@href'],
+    sidebarHeader: ['.user-sidebar .widget header h4 | trim'],
+    sidebarBody: ['.widget-body | trim'],
+    stats: ['.sidebar-data div | trim']
+  })
+  .then(data => {
+    return data;
+  });
+}
+
+/**
  * This is a function to fetch Article from link.
  * @param {string} null 
  * @returns {Promise<Array>} The promise with data scrapped from webpage.
@@ -168,6 +193,7 @@ module.exports = {
   fetchTags,
   searchPost,
   fetchByAuthor,
+  fetchAuthorProfile,
   fetchTop,
   fetchLatest
 };
