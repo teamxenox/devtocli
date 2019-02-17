@@ -51,7 +51,7 @@ const showPostsByTimeline = (timeline) => {
 
 /**
  * This is a function to display the profile details of the author.
- * @param {Object} profileInfo - profile of the author
+ * @param {string} username - username of the author
  * @returns {null} null
  */
 
