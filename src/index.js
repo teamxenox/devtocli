@@ -3,10 +3,10 @@
 const program = require('commander');
 const opn = require('opn');
 
-
 const crawler = require('./util/crawler');
 const countdown = require('./util/spinner');
 const prompt = require('./util/prompt');
+const showProfile = require('./util/profile');
 
 let articles;
 
@@ -47,6 +47,24 @@ const showPostsByTimeline = (timeline) => {
             openLink(answers);
         });
     })
+}
+
+/**
+ * This is a function to display the profile details of the author.
+ * @param {string} username - username of the author
+ * @returns {null} null
+ */
+
+const showAuthorProfile = (username) => {
+    countdown.start();
+    crawler.fetchAuthorProfile(username).then((profileInfo) => {
+        countdown.stop();
+        if (!profileInfo.name) {
+            console.error("😱 User not found. Please try again.");
+            process.exit(1);
+        }
+        showProfile(profileInfo);
+    });
 }
 
 program
@@ -117,16 +135,21 @@ program
 
 program
     .command("author <username>")
+    .option("-p, --profile", "Show author profile")
     .alias("a")
-    .action((username) => {
-        countdown.start();
-        crawler.fetchByAuthor(username).then(data => {
-            countdown.stop();
-            articles = data.filter(data => data.title != undefined);
-            prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                openLink(answers);
+    .action((username, cmd) => {
+        if (cmd.profile) {
+            showAuthorProfile(username);
+        } else {
+            countdown.start();
+            crawler.fetchByAuthor(username).then(data => {
+                countdown.stop();
+                articles = data.filter(data => data.title != undefined);
+                prompt.showPosts(articles.map(data => data.title)).then(answers => {
+                    openLink(answers);
+                });
             });
-        });
+        }
     })
 
 // error on unknown commands
