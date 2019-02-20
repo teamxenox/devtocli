@@ -1,6 +1,6 @@
 {
   "name": "devtocli",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A simple package to let you use Dev.to in Terminal",
   "main": "src/index.js",
   "repository": {
@@ -19,6 +19,7 @@
     "cheerio": "^1.0.0-rc.2",
     "clui": "^0.3.6",
     "commander": "^2.19.0",
+    "esc-exit": "^2.0.1",
     "inquirer": "^6.2.1",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "opn": "^5.4.0",

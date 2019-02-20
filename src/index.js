@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const opn = require('opn');
+const escExit = require('esc-exit');
 
 const crawler = require('./util/crawler');
 const countdown = require('./util/spinner');
@@ -9,6 +10,8 @@ const prompt = require('./util/prompt');
 const showProfile = require('./util/profile');
 
 let articles;
+
+escExit();
 
 const openLink = (answers) => {
     opn(articles.find(data => data.title === answers.title).link);
@@ -68,7 +71,7 @@ const showAuthorProfile = (username) => {
 }
 
 program
-    .version('1.4.6')
+    .version('1.4.7')
 
 program
     .command("top [timeline]")
