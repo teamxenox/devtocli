@@ -1,4 +1,4 @@
-![](https://i.imgur.com/zPaxHsH.png)
+<div align="center"><img src="https://i.imgur.com/XHprWPp.png"></div>
 
 ## Dev.to CLI
 
@@ -10,49 +10,88 @@ Wanted to get [Dev.to](https://www.dev.to/) on your terminal? Ahoy! now you can.
 
 ![](https://media.giphy.com/media/pO3c8KoeQoUktf9Pmn/giphy.gif)
 
-## Usage
+You can get top posts from the Dev.to feed in your terminal using:
 
-#### 1. Check the top posts
-You can get top post from Dev.to feed in your terminal using:
-```sh
+```
 devto
 ```
-#### 2. Check top posts by tag
-Easy post search using the tag, you can use 
-```sh
-devto tag javascript 
-```
-if you don't know the keyword, you can use the search tag feauture using 
-```sh
-devto tag 
-```
-#### 3. Check recent posts by any author
-You can check 5 most recents posts of author using
-```sh
-devto author sarthology 
-```
-#### 4. Check top posts by timeline author
-You can check top posts on Dev.to by time frame using
-```sh
-devto top week 
-```
-options are `week,month,year,infinity` or just to see options just type
-```sh
-devto top  
-```
-#### 5. Serach top posts by keyword 
-Use the powerful search feature to find posts using keyword
 
-```sh
-devto search sarthology 
+#### 2. Check top posts by tag
+
+![](https://media.giphy.com/media/88iIj62WlG65FValeD/giphy.gif)
+
+Easy post search using the tag, you can use
+
+
 ```
-in this you can even search posts using tag, author name, title, basically anything.
+devto tag javascript
+```
+
+
+if you don't know the keyword, you can use the search tag feature using
+
+![](https://media.giphy.com/media/7SHzSDVDi3M4z5o3nF/giphy.gif)
+
+```
+devto tag
+```
+
+#### 3. Check recent posts by any author
+
+![](https://media.giphy.com/media/2sYdeNhrIJysqiS9Of/giphy.gif)
+
+You can check 5 most recent posts of any author using
+
+```
+devto author sarthology
+```
+
+#### 4. Check top posts by timeline
+
+![](https://media.giphy.com/media/300WBW4zkSiFNBBHNM/giphy.gif)
+
+You can check top posts on Dev.to for a specific timeframe using
+
+```
+devto top week
+```
+
+There are several options like `week` `month` `year` `infinity`. If you want to see the options just type
+
+```
+devto top
+```
+
+#### 5. Search top posts by a keyword
+
+![](https://media.giphy.com/media/2sj20bitpaOrwjIwGi/giphy.gif)
+
+Use the powerful search feature to find posts using keywords
+
+```
+devto search sarthology
+```
+
+With this, you can even search posts using a tag, author name, title... basically anything.
 
 #### 6. Check latest posts on Dev.to
-You can also see the most latest posts on Dev.to using 
 
-```sh
-devto latest 
+![](https://media.giphy.com/media/4WFhDHwrwB8Wq2EJFv/giphy.gif)
+
+You can also see the latest posts on Dev.to using
+
+```
+devto latest
+```
+
+#### 7. Check author profile on Dev.to
+
+![](https://media.giphy.com/media/BGUyFk1ffyWQ98F26B/giphy.gif)
+
+You can also see the author profile on Dev.to using
+
+```
+devto author sarthology -p
 ```
 
 ## Prerequisites
@@ -61,7 +100,6 @@ Before running this locally you must have these installed
 
 - Node
 - npm
-
 ## Installing
 
 It's built in node so the process to start this is really easy
