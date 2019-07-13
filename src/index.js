@@ -26,7 +26,14 @@ const openLink = (answers) => {
 
 const postPrompt = (articles) => {
     prompt.showPosts(articles.map(data => data.title)).then(answers => {
-        openLink(answers);
+        prompt.postOperation().then(data => {
+            if(data.postOperation === 'Add to Bookmark') {
+                return postPrompt(articles);
+            }
+            openLink(answers)
+        }).catch(err => {
+            console.log('Something Happened - ', err);
+        });
     });
 }
 

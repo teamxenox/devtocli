@@ -63,8 +63,24 @@ const selectTimline = () => {
     }])
 }
 
+/**
+ * This is a function to show prompt for the post operation
+ * @param {null} null
+ * @returns {Promise} The promise with the operation choosen
+ */
+
+const postOperation = () => {
+    return inquirer.prompt([{
+        type: 'list',
+        name: 'postOperation',
+        message: 'What do we do with this post : ',
+        choices: ['Open Link', 'Add to Bookmark']
+    }]);
+}
+
 module.exports = {
     showPosts,
     searchTags,
-    selectTimline
+    selectTimline,
+    postOperation
 };
