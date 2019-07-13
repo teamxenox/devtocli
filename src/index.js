@@ -8,6 +8,7 @@ const crawler = require('./util/crawler');
 const countdown = require('./util/spinner');
 const prompt = require('./util/prompt');
 const showProfile = require('./util/profile');
+const localStorage = require('./util/localStorage');
 
 let articles;
 
@@ -20,7 +21,7 @@ const openLink = (answers) => {
 
 /**
  * This is a function to show the prompt for the articles passed
- * @param {array<Object>} articles 
+ * @param {Array<Object>} articles 
  * @returns {null} null
  */
 
@@ -28,11 +29,13 @@ const postPrompt = (articles) => {
     prompt.showPosts(articles.map(data => data.title)).then(answers => {
         prompt.postOperation().then(data => {
             if(data.postOperation === 'Add to Bookmark') {
+                // push the answer to bookmark storage
+                localStorage.addBookmark(articles.find(data => data.title === answers.title));
                 return postPrompt(articles);
             }
             openLink(answers)
         }).catch(err => {
-            console.log('Something Happened - ', err);
+            console.log('unexpected error occurred :( - ', err);
         });
     });
 }
