@@ -19,6 +19,18 @@ const openLink = (answers) => {
 }
 
 /**
+ * This is a function to show the prompt for the articles passed
+ * @param {array<Object>} articles 
+ * @returns {null} null
+ */
+
+const postPrompt = (articles) => {
+    prompt.showPosts(articles.map(data => data.title)).then(answers => {
+        openLink(answers);
+    });
+}
+
+/**
  * This is a function to fetch top posts of a tags.
  * @param {string} tag - tag by which posts will be fetched
  * @returns {null} null
@@ -29,9 +41,7 @@ const showPostsByTags = (tag) => {
     crawler.fetchByTags(tag).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
+        postPrompt(articles);
     });
 }
 
@@ -46,9 +56,7 @@ const showPostsByTimeline = (timeline) => {
     crawler.fetchTop(timeline).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
+        postPrompt(articles);
     })
 }
 
@@ -110,9 +118,7 @@ program
         crawler.fetchLatest().then(data => {
             countdown.stop();
             articles = data.filter(data => data.title != undefined);
-            prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                openLink(answers);
-            });
+            postPrompt(articles);
         })
         
     })
@@ -130,9 +136,7 @@ program
                     link: "https://dev.to" + post.path
                 }
             });
-            prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                openLink(answers);
-            });
+            postPrompt(articles);
         });
     })
 
@@ -148,9 +152,7 @@ program
             crawler.fetchByAuthor(username).then(data => {
                 countdown.stop();
                 articles = data.filter(data => data.title != undefined);
-                prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                    openLink(answers);
-                });
+                postPrompt(articles);
             });
         }
     })
@@ -168,8 +170,6 @@ if (program.args.length === 0) {
     crawler.fetchHome().then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
+        postPrompt(articles);
     })
 }
