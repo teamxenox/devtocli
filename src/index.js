@@ -10,6 +10,8 @@ const prompt = require('./util/prompt');
 const showProfile = require('./util/profile');
 const localStorage = require('./util/localStorage');
 
+const BOOKMARK_TAG = '   ![BOOKMARK]';
+
 let articles;
 
 escExit();
@@ -19,24 +21,54 @@ const openLink = (answers) => {
     process.exit();
 }
 
+const tagBookmark = () => {
+    // append the bookmarked post title with ![BOOKMARK]tag
+    let titles = articles.map(article => {
+        let finalTitle;
+
+        let bookmarks = localStorage.readBookmark().bookmarks;
+        if(bookmarks.length > 0) {
+            for(let i = 0; i < bookmarks.length; i++) {
+                if(article.link === bookmarks[i].link) {
+                    finalTitle = article.title + '   ![BOOKMARK]';
+                    break;
+                }else {
+                    finalTitle = article.title;
+                }
+            }
+            return finalTitle;
+        }else
+            return article.title;
+    });
+
+    return titles;
+}
+
 /**
  * This is a function to show the prompt for the articles passed
  * @param {Array<Object>} articles 
  * @returns {null} null
  */
 
-const postPrompt = (articles) => {
-    prompt.showPosts(articles.map(data => data.title)).then(answers => {
-        prompt.postOperation().then(data => {
-            if(data.postOperation === 'Add to Bookmark') {
-                // push the answer to bookmark storage
-                localStorage.addBookmark(articles.find(data => data.title === answers.title));
-                return postPrompt(articles);
-            }
-            openLink(answers)
-        }).catch(err => {
-            console.log('unexpected error occurred :( - ', err);
-        });
+const postPrompt = () => {
+    prompt.showPosts(tagBookmark()).then(answers => {
+        if(!answers.title.includes('   ![BOOKMARK]')){
+            
+            prompt.postOperation().then(data => {
+                if(data.postOperation === 'Add to Bookmark') {
+                    // push the answer to bookmark storage
+                    localStorage.addBookmark(articles.find(data => data.title === answers.title));
+                    return postPrompt();
+                }
+                openLink(answers);
+            }).catch(err => {
+                console.log('unexpected error occurred :( - ', err);
+            });
+        }else{
+            // remove the ![BOOKMARK] tag from title
+            answers.title = answers.title.slice(0, -(BOOKMARK_TAG.length));
+            openLink(answers);
+        }
     });
 }
 
@@ -51,7 +83,7 @@ const showPostsByTags = (tag) => {
     crawler.fetchByTags(tag).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        postPrompt(articles);
+        postPrompt();
     });
 }
 
@@ -66,7 +98,7 @@ const showPostsByTimeline = (timeline) => {
     crawler.fetchTop(timeline).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        postPrompt(articles);
+        postPrompt();
     })
 }
 
@@ -128,7 +160,7 @@ program
         crawler.fetchLatest().then(data => {
             countdown.stop();
             articles = data.filter(data => data.title != undefined);
-            postPrompt(articles);
+            postPrompt();
         })
         
     })
@@ -146,7 +178,7 @@ program
                     link: "https://dev.to" + post.path
                 }
             });
-            postPrompt(articles);
+            postPrompt();
         });
     })
 
@@ -162,7 +194,7 @@ program
             crawler.fetchByAuthor(username).then(data => {
                 countdown.stop();
                 articles = data.filter(data => data.title != undefined);
-                postPrompt(articles);
+                postPrompt();
             });
         }
     })
@@ -180,6 +212,6 @@ if (program.args.length === 0) {
     crawler.fetchHome().then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        postPrompt(articles);
+        postPrompt();
     })
 }
