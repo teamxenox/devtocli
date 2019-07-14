@@ -57,7 +57,19 @@ const addBookmark = (selectedPost) => {
     fs.writeFileSync('.bookmarks.json', JSON.stringify(bookmark));       
 }
 
+/**
+ * This is a function to delete the selected bookmark
+ * @param {Object<string>} selectedPostTitle 
+ * @returns {null} null
+ */
+const deleteBookmark = (selectedPostTitle) => {
+    let bookmark = readBookmark().bookmarks;
+    bookmark.splice(bookmark.indexOf(bookmark.find(data => data.title === selectedPostTitle)), 1)
+    fs.writeFileSync('.bookmarks.json', JSON.stringify({bookmarks:bookmark}));      
+}
+
 module.exports = {
     readBookmark,
-    addBookmark
+    addBookmark,
+    deleteBookmark
 };

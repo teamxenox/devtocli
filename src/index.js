@@ -58,7 +58,7 @@ const postPrompt = () => {
     prompt.showPosts(tagBookmark()).then(answers => {
         if(!answers.title.includes(BOOKMARK_TAG)){
             
-            prompt.postOperation().then(data => {
+            prompt.postOperation(['Open Link', 'Add to Bookmark']).then(data => {
                 if(data.postOperation === 'Add to Bookmark') {
                     // push the answer to bookmark storage
                     localStorage.addBookmark(articles.find(data => data.title === answers.title));
@@ -73,6 +73,31 @@ const postPrompt = () => {
             answers.title = answers.title.slice(0, -(BOOKMARK_TAG.length));
             openLink(answers);
         }
+    });
+}
+
+/**
+ * This is a function to show the bookmark with post prompt 
+ * i.e open link or delete bookmark
+ * @param {null} null
+ * @returns {null} open link or load updated bookmark
+ */
+const postBookmarkPrompt = () => {
+    bookmark = localStorage.readBookmark().bookmarks;
+    prompt.showPosts(bookmark.map(data => data.title)).then(answer => {
+        prompt.postOperation(['Open Link', 'Remove from Bookmark']).then(choice => {
+            if(choice.postOperation === 'Remove from Bookmark') {
+                localStorage.deleteBookmark(answer.title);
+                return postBookmarkPrompt();
+            }
+            opn(bookmark.find(data => data.title === answer.title).link);
+            process.exit();
+        }).catch(err => {
+            console.log(err);
+        });
+        
+    }).catch(err => {
+        console.log(err);
     });
 }
 
@@ -171,15 +196,7 @@ program
     .command("bookmark")
     .alias("bm")
     .action(() => {
-        countdown.start();
-        let bookmark = localStorage.readBookmark().bookmarks;
-        countdown.stop();
-        prompt.showPosts(bookmark.map(data => data.title)).then(answer => {
-            opn(bookmark.find(data => data.title === answer.title).link);
-            process.exit();
-        }).catch(err => {
-            console.log(err);
-        });
+        postBookmarkPrompt();
     })
 
 program

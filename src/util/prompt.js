@@ -69,12 +69,12 @@ const selectTimline = () => {
  * @returns {Promise} The promise with the operation choosen
  */
 
-const postOperation = () => {
+const postOperation = (choices) => {
     return inquirer.prompt([{
         type: 'list',
         name: 'postOperation',
         message: 'What do we do with this post : ',
-        choices: ['Open Link', 'Add to Bookmark']
+        choices: choices
     }]);
 }
 
