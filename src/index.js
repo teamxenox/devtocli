@@ -21,8 +21,12 @@ const openLink = (answers) => {
     process.exit();
 }
 
+/**
+ * A function to append the ![BOOKMARK] tag to the bookmarked title
+ * @params {null} null
+ * @return {null} null
+ */
 const tagBookmark = () => {
-    // append the bookmarked post title with ![BOOKMARK]tag
     let titles = articles.map(article => {
         let finalTitle;
 
@@ -30,7 +34,7 @@ const tagBookmark = () => {
         if(bookmarks.length > 0) {
             for(let i = 0; i < bookmarks.length; i++) {
                 if(article.link === bookmarks[i].link) {
-                    finalTitle = article.title + '   ![BOOKMARK]';
+                    finalTitle = article.title + BOOKMARK_TAG;
                     break;
                 }else {
                     finalTitle = article.title;
@@ -52,7 +56,7 @@ const tagBookmark = () => {
 
 const postPrompt = () => {
     prompt.showPosts(tagBookmark()).then(answers => {
-        if(!answers.title.includes('   ![BOOKMARK]')){
+        if(!answers.title.includes(BOOKMARK_TAG)){
             
             prompt.postOperation().then(data => {
                 if(data.postOperation === 'Add to Bookmark') {
