@@ -160,13 +160,26 @@ program
     .alias("l")
     .action(() => {
         countdown.start();
-
         crawler.fetchLatest().then(data => {
             countdown.stop();
             articles = data.filter(data => data.title != undefined);
             postPrompt();
         })
-        
+    })
+
+program
+    .command("bookmark")
+    .alias("bm")
+    .action(() => {
+        countdown.start();
+        let bookmark = localStorage.readBookmark().bookmarks;
+        countdown.stop();
+        prompt.showPosts(bookmark.map(data => data.title)).then(answer => {
+            opn(bookmark.find(data => data.title === answer.title).link);
+            process.exit();
+        }).catch(err => {
+            console.log(err);
+        });
     })
 
 program
