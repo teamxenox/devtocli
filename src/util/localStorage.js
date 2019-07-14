@@ -1,6 +1,9 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
+
+const STORAGE_PATH = path.join(process.cwd(), '.bookmarks.json');
 
 /**
  * This is a function to initialize the bookmark JSON file
@@ -13,7 +16,7 @@ const initBookmark = () => {
     };
 
     try{
-        fs.writeFileSync('.bookmarks.json', JSON.stringify(emptyBookmark));
+        fs.writeFileSync(STORAGE_PATH, JSON.stringify(emptyBookmark));
     }catch(err) {
         throw new Error('unexpected error occurred :(');
     }
@@ -28,11 +31,11 @@ const initBookmark = () => {
 
 const readBookmark = () => {
     try{
-        return JSON.parse(fs.readFileSync('.bookmarks.json'));
+        return JSON.parse(fs.readFileSync(STORAGE_PATH));
     }catch(err) {
         if(err.code === 'ENOENT') {
             initBookmark();
-            return JSON.parse(fs.readFileSync('.bookmarks.json'));
+            return JSON.parse(fs.readFileSync(STORAGE_PATH));
         } else {
             throw new Error('unexpected error occurred :(');
         }
@@ -54,7 +57,7 @@ const addBookmark = (selectedPost) => {
         link: selectedPost.link
     });
 
-    fs.writeFileSync('.bookmarks.json', JSON.stringify(bookmark));       
+    fs.writeFileSync(STORAGE_PATH, JSON.stringify(bookmark));       
 }
 
 /**
@@ -65,7 +68,7 @@ const addBookmark = (selectedPost) => {
 const deleteBookmark = (selectedPostTitle) => {
     let bookmark = readBookmark().bookmarks;
     bookmark.splice(bookmark.indexOf(bookmark.find(data => data.title === selectedPostTitle)), 1)
-    fs.writeFileSync('.bookmarks.json', JSON.stringify({bookmarks:bookmark}));      
+    fs.writeFileSync(STORAGE_PATH, JSON.stringify({bookmarks:bookmark}));      
 }
 
 module.exports = {
