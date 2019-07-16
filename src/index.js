@@ -8,6 +8,9 @@ const crawler = require('./util/crawler');
 const countdown = require('./util/spinner');
 const prompt = require('./util/prompt');
 const showProfile = require('./util/profile');
+const localStorage = require('./util/localStorage');
+
+const BOOKMARK_TAG = '   ![BOOKMARK]';
 
 let articles;
 
@@ -16,6 +19,86 @@ escExit();
 const openLink = (answers) => {
     opn(articles.find(data => data.title === answers.title).link);
     process.exit();
+}
+
+/**
+ * A function to append the ![BOOKMARK] tag to the bookmarked title
+ * @params {null} null
+ * @return {null} null
+ */
+const tagBookmark = () => {
+    let titles = articles.map(article => {
+        let finalTitle;
+
+        let bookmarks = localStorage.readBookmark().bookmarks;
+        if(bookmarks.length > 0) {
+            for(let i = 0; i < bookmarks.length; i++) {
+                if(article.link === bookmarks[i].link) {
+                    finalTitle = article.title + BOOKMARK_TAG;
+                    break;
+                }else {
+                    finalTitle = article.title;
+                }
+            }
+            return finalTitle;
+        }else
+            return article.title;
+    });
+
+    return titles;
+}
+
+/**
+ * This is a function to show the prompt for the articles passed
+ * @param {Array<Object>} articles 
+ * @returns {null} null
+ */
+
+const postPrompt = () => {
+    prompt.showPosts(tagBookmark()).then(answers => {
+        if(!answers.title.includes(BOOKMARK_TAG)){
+            
+            prompt.postOperation(['Open Link', 'Add to Bookmark']).then(data => {
+                if(data.postOperation === 'Add to Bookmark') {
+                    // push the answer to bookmark storage
+                    localStorage.addBookmark(articles.find(data => data.title === answers.title));
+                    return postPrompt();
+                }
+                openLink(answers);
+            }).catch(err => {
+                console.log('unexpected error occurred :( - ', err);
+            });
+        }else{
+            // remove the ![BOOKMARK] tag from title
+            answers.title = answers.title.slice(0, -(BOOKMARK_TAG.length));
+            openLink(answers);
+        }
+    });
+}
+
+/**
+ * This is a function to show the bookmark with post prompt 
+ * i.e open link or delete bookmark
+ * @param {null} null
+ * @returns {null} open link or load updated bookmark
+ */
+const postBookmarkPrompt = () => {
+    bookmark = localStorage.readBookmark().bookmarks;
+    prompt.showPosts(bookmark.map(data => data.title)).then(answer => {
+        prompt.postOperation(['Open Link', 'Remove from Bookmark']).then(choice => {
+            if(choice.postOperation === 'Remove from Bookmark') {
+                localStorage.deleteBookmark(answer.title);
+                return postBookmarkPrompt();
+            }
+            opn(bookmark.find(data => data.title === answer.title).link);
+            process.exit();
+        }).catch(err => {
+            console.log(err);
+        });
+        
+    }).catch(err => {
+        console.log(err);
+    });
 }
 
 /**
@@ -29,9 +112,7 @@ const showPostsByTags = (tag) => {
     crawler.fetchByTags(tag).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
+        postPrompt();
     });
 }
 
@@ -46,9 +127,7 @@ const showPostsByTimeline = (timeline) => {
     crawler.fetchTop(timeline).then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
+        postPrompt();
     })
 }
 
@@ -106,15 +185,18 @@ program
     .alias("l")
     .action(() => {
         countdown.start();
-
         crawler.fetchLatest().then(data => {
             countdown.stop();
             articles = data.filter(data => data.title != undefined);
-            prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                openLink(answers);
-            });
+            postPrompt();
         })
-        
+    })
+
+program
+    .command("bookmark")
+    .alias("bm")
+    .action(() => {
+        postBookmarkPrompt();
     })
 
 program
@@ -130,9 +212,7 @@ program
                     link: "https://dev.to" + post.path
                 }
             });
-            prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                openLink(answers);
-            });
+            postPrompt();
         });
     })
 
@@ -148,9 +228,7 @@ program
             crawler.fetchByAuthor(username).then(data => {
                 countdown.stop();
                 articles = data.filter(data => data.title != undefined);
-                prompt.showPosts(articles.map(data => data.title)).then(answers => {
-                    openLink(answers);
-                });
+                postPrompt();
             });
         }
     })
@@ -168,8 +246,6 @@ if (program.args.length === 0) {
     crawler.fetchHome().then(data => {
         countdown.stop();
         articles = data.filter(data => data.title != undefined);
-        prompt.showPosts(articles.map(data => data.title)).then(answers => {
-            openLink(answers);
-        });
+        postPrompt();
     })
 }
