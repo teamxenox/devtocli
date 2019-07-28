@@ -10,6 +10,8 @@ const prompt = require('./util/prompt');
 const showProfile = require('./util/profile');
 const localStorage = require('./util/localStorage');
 
+const { Log } = require('./util/chalkExtra');
+
 const BOOKMARK_TAG = '   ![BOOKMARK]';
 
 let articles;
@@ -66,7 +68,7 @@ const postPrompt = () => {
                 }
                 openLink(answers);
             }).catch(err => {
-                console.log('unexpected error occurred :( - ', err);
+                Log(('unexpected error occurred :( - ', err), "error");
             });
         }else{
             // remove the ![BOOKMARK] tag from title
@@ -93,11 +95,11 @@ const postBookmarkPrompt = () => {
             opn(bookmark.find(data => data.title === answer.title).link);
             process.exit();
         }).catch(err => {
-            console.log(err);
+            Log(err, "error");
         });
         
     }).catch(err => {
-        console.log(err);
+        Log(err, "error");
     });
 }
 
@@ -142,7 +144,7 @@ const showAuthorProfile = (username) => {
     crawler.fetchAuthorProfile(username).then((profileInfo) => {
         countdown.stop();
         if (!profileInfo.name) {
-            console.error("😱 User not found. Please try again.");
+            Log("😱 User not found. Please try again.", "error");
             process.exit(1);
         }
         showProfile(profileInfo);
@@ -235,7 +237,7 @@ program
 
 // error on unknown commands
 program.on('command:*', function () {
-    console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
+    Log(('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' ')),"error");
     process.exit(1);
   });
 
