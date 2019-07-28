@@ -2,6 +2,8 @@
 
 const chalk = require('chalk');
 
+const { Log } = require('./util/chalkExtra');
+
 const log = console.log;
 const title = chalk.yellow;
 const body = chalk.green;
@@ -13,10 +15,10 @@ const body = chalk.green;
  */
 
 const showNameAndDesc = (profile) => {
-    log(title('name'))
-    log(body(profile.name));
-    log(title('\ndescription'))
-    log(body(`${profile.desc}\n`));
+    Log('name', 'primary');
+    Log(profile.name, 'secondary');
+    Log('\ndescription', 'primary');    
+    Log(`${profile.desc}\n`, 'secondary');
 }
 
 /**
@@ -27,8 +29,8 @@ const showNameAndDesc = (profile) => {
 
 const showAuthorInfo = (profile) => {
     profile.field.forEach((field, index) => {
-        log(title(field));
-        log(body(`${profile.value[index]}\n`));
+        Log(field, 'primary');
+        Log(`${profile.value[index]}\n`, 'secondary');
     });
 }
 
@@ -39,9 +41,9 @@ const showAuthorInfo = (profile) => {
  */
 
 const showLinks = (profile) => {
-    log(title('links'));
+    Log('links', 'primary');
     profile.links.forEach(link => {
-        log(body(link));
+        Log(link, 'secondary');
     });
 }
 
@@ -53,9 +55,10 @@ const showLinks = (profile) => {
 
 const showSidebarDetails = (profile) => {
     log('');
+    Log('', 'dark');
     profile.sidebarHeader.forEach((header, index) => {
-        log(title(header));
-        log(body(`${profile.sidebarBody[index]}\n`));
+        Log(header, 'primary');
+        Log(`${profile.sidebarBody[index]}\n`, 'secondary')
     });
 }
 
@@ -66,9 +69,9 @@ const showSidebarDetails = (profile) => {
  */
 
 const showStats = (profile) => {
-    log(title('stats'));
+    Log('stats', 'primary');
     profile.stats.forEach(stat => {
-        log(body(stat));
+        Log(stat, 'secondary');
     });
 }
 
