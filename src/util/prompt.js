@@ -3,6 +3,8 @@
 // Native import
 const inquirer = require('inquirer');
 
+const { Log } = require('./util/chalkExtra');
+
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
 
 /**
@@ -34,7 +36,7 @@ const searchTags = (tags) => {
 
 const showPosts = (titles) => {
     if(titles.length === 0){
-        console.error("😱 No posts found. Please try again.");
+        Log("😱 No posts found. Please try again.", "error");
         process.exit(1);
     }
     
