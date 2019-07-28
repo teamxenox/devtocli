@@ -2,7 +2,7 @@
 
 const chalk = require('chalk');
 
-const { Log } = require('./util/chalkExtra');
+const { Log } = require('./chalkExtra');
 
 const log = console.log;
 const title = chalk.yellow;
