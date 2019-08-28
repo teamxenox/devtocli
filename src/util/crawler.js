@@ -5,6 +5,9 @@ const Xray = require('x-ray');
 const algoliasearch = require('algoliasearch');
 const client = algoliasearch('YE5Y9R600C', 'OTU1YjU5MWNlZTk1MjQ0YmExOTRjZmY4NDM2ZTM2YWZiYTM2ODA2NThhMzNjMDkzYTEzYjFmNDY0MDcwNjRkOHJlc3RyaWN0SW5kaWNlcz1zZWFyY2hhYmxlc19wcm9kdWN0aW9uJTJDVGFnX3Byb2R1Y3Rpb24lMkNvcmRlcmVkX2FydGljbGVzX3Byb2R1Y3Rpb24lMkNvcmRlcmVkX2FydGljbGVzX2J5X3B1Ymxpc2hlZF9hdF9wcm9kdWN0aW9uJTJDb3JkZXJlZF9hcnRpY2xlc19ieV9wb3NpdGl2ZV9yZWFjdGlvbnNfY291bnRfcHJvZHVjdGlvbiUyQ29yZGVyZWRfY29tbWVudHNfcHJvZHVjdGlvbg==');
 const index = client.initIndex('searchables_production');
+const ProxyAgent = require('proxy-agent');
+const http = require('http');
+const https = require('https');
 
 //Global Variable
 const xray = Xray({
@@ -17,6 +20,13 @@ const xray = Xray({
     }
   }
 });
+
+
+const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy || process.env.HTTP_PROXY || process.env.http_proxy;
+if (proxyUrl) {
+  http.globalAgent = new ProxyAgent(proxyUrl);
+  https.globalAgent = new ProxyAgent(proxyUrl);
+}
 
 /**
  * This is a function to fetch home feed of `dev.to` using the `x-ray` module.
