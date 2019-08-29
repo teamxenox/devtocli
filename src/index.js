@@ -236,8 +236,8 @@ program
     })
 
 // error on unknown commands
-program.on('command:*', function () {
-    Log(('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' ')),"error");
+program.on('command:*', function () {    
+    Log('Invalid command: %s\nSee --help for a list of available commands. ' + program.args.join(' ') ,"error");
     process.exit(1);
   });
 
