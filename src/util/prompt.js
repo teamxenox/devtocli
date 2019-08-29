@@ -17,7 +17,7 @@ const searchTags = (tags) => {
     return inquirer.prompt([{
         type: 'autocomplete',
         name: 'tag',
-        message: '🕵🏻‍♂️  Search popular tags:',
+        message: Log('🕵🏻‍♂️  Search popular tags:', 'info'),
         pageSize: 4,
         source: function (answers, input) {
             return new Promise((resolve) => {
@@ -43,7 +43,7 @@ const showPosts = (titles) => {
     return inquirer.prompt([{
         type: 'rawlist',
         name: 'title',
-        message: '📚 Here are your posts:',
+        message: Log('📚 Here are your posts:', 'success'),
         choices: titles,
         paginated: true
     }])
@@ -59,7 +59,7 @@ const selectTimline = () => {
     return inquirer.prompt([{
         type: 'list',
         name: 'timeline',
-        message: '📆 Please choose the timeline:',
+        message: Log('📆 Please choose the timeline:', "info"),
         choices: ["week","month","year","infinity"],
         paginated: true
     }])
@@ -75,7 +75,7 @@ const postOperation = (choices) => {
     return inquirer.prompt([{
         type: 'list',
         name: 'postOperation',
-        message: 'What do we do with this post : ',
+        message: Log('What do we do with this post : ', "info"),
         choices: choices
     }]);
 }
