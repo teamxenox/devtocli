@@ -9,6 +9,8 @@ const ProxyAgent = require('proxy-agent');
 const http = require('http');
 const https = require('https');
 
+const { Log } = require('./chalkExtra');
+
 //Global Variable
 const xray = Xray({
   filters: {
@@ -144,7 +146,7 @@ const fetchAuthorProfile = (username) => {
  */
 
 const fetchArticle = (url) => {
-  return xray(url, '#article-body | trim').then(data => console.log(data));
+  return xray(url, '#article-body | trim').then(data => Log(data, 'dark'));
 }
 
 /**
