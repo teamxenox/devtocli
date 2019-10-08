@@ -152,6 +152,7 @@ const showAuthorProfile = (username) => {
 
 program
     .version(version)
+    .usage('<command> [options]')
     .description(description)
 
 program
