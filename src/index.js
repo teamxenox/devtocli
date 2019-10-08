@@ -4,6 +4,7 @@ const program = require('commander');
 const opn = require('opn');
 const escExit = require('esc-exit');
 
+const { description, version } = require('../package');
 const crawler = require('./util/crawler');
 const countdown = require('./util/spinner');
 const prompt = require('./util/prompt');
@@ -150,7 +151,8 @@ const showAuthorProfile = (username) => {
 }
 
 program
-    .version('1.4.7')
+    .version(version)
+    .description(description)
 
 program
     .command("top [timeline]")
