@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 const program = require('commander');
-const opn = require('opn');
+const open = require('open');
 const escExit = require('esc-exit');
 
 const crawler = require('./util/crawler');
@@ -17,7 +17,7 @@ let articles;
 escExit();
 
 const openLink = (answers) => {
-    opn(articles.find(data => data.title === answers.title).link);
+    open(articles.find(data => data.title === answers.title).link);
     process.exit();
 }
 
@@ -90,7 +90,7 @@ const postBookmarkPrompt = () => {
                 localStorage.deleteBookmark(answer.title);
                 return postBookmarkPrompt();
             }
-            opn(bookmark.find(data => data.title === answer.title).link);
+            open(bookmark.find(data => data.title === answer.title).link);
             process.exit();
         }).catch(err => {
             console.log(err);
