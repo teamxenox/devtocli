@@ -105,7 +105,7 @@ Feel free to contribute to this project and treat it like your own. 😊
 
 ## License
 
-MIT License
+[MIT License](https://github.com/teamxenox/devtocli/blob/master/LICENSE)
 
 ## Author
 
