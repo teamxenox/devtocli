@@ -19,6 +19,7 @@
     "cheerio": "^1.0.0-rc.2",
     "clui": "^0.3.6",
     "commander": "^2.19.0",
+    "didyoumean": "^1.2.1",
     "esc-exit": "^2.0.1",
     "inquirer": "^6.2.1",
     "inquirer-autocomplete-prompt": "^1.0.1",
