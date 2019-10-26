@@ -88,8 +88,8 @@ devto latest
 
 Before running this locally you must have these installed
 
-- Node
-- npm
+- [Node](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
 ## Installing
 
 It's built in node so the process to start this is really easy
