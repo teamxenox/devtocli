@@ -3,6 +3,8 @@
 const program = require('commander');
 const open = require('open');
 const escExit = require('esc-exit');
+const chalk = require('chalk');
+const didYouMean = require('didyoumean');
 
 const { description, version } = require('../package');
 const crawler = require('./util/crawler');
@@ -150,6 +152,15 @@ const showAuthorProfile = (username) => {
     });
 }
 
+const suggestCommands = cmd => {
+	const availableCommands = program.commands.map(c => c._name);
+
+	const suggestion = didYouMean(cmd, availableCommands);
+	if (suggestion) {
+		console.log(`  ` + chalk.red(`Did you mean ${chalk.yellow(suggestion)}?`));
+	}
+}
+
 program
     .version(version)
     .usage('<command> [options]')
@@ -237,10 +248,13 @@ program
     })
 
 // error on unknown commands
-program.on('command:*', function () {
-    console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args.join(' '));
-    process.exit(1);
-  });
+program.arguments('<command>').action(cmd => {
+	program.outputHelp();
+	console.log(`  ` + chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`));
+	console.log();
+	suggestCommands(cmd);
+	process.exit(1);
+});
 
 program.parse(process.argv);
 
