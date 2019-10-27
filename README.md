@@ -107,9 +107,10 @@ Feel free to contribute to this project and treat it like your own. 😊
 
 [MIT License](https://github.com/teamxenox/devtocli/blob/master/LICENSE)
 
-## Author
+## Authors
 
 [Sarthak Sharma](https://twitter.com/sarthology)
+[James George](https://twitter.com/james_madhacks)
 
 ## Acknowledgments
 
