@@ -115,4 +115,4 @@ Feel free to contribute to this project and treat it like your own. 😊
 
 ## Acknowledgments
 
-Thanks Dev.to👩🏻‍💻👨🏻‍💻, for being a massively inspiring platform.
+Thanks [Dev.to](https://www.dev.to/)👩🏻‍💻👨🏻‍💻, for being a massively inspiring platform.
