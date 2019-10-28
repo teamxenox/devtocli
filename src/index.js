@@ -265,10 +265,13 @@ program.arguments('<command>').action(async cmd => {
 program.parse(process.argv);
 
 if (program.args.length === 0) {
-    countdown.start();
-    crawler.fetchHome().then(data => {
-        countdown.stop();
-        articles = data.filter(data => data.title != undefined);
-        postPrompt();
-    })
+    (async () => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        countdown.start();
+        crawler.fetchHome().then(data => {
+            countdown.stop();
+            articles = data.filter(data => data.title != undefined);
+            postPrompt();
+        })
+    })();
 }
