@@ -5,6 +5,7 @@ const open = require('open');
 const escExit = require('esc-exit');
 const chalk = require('chalk');
 const didYouMean = require('didyoumean');
+const showBanner = require('node-banner');
 
 const { description, version } = require('../package');
 const crawler = require('./util/crawler');
@@ -168,8 +169,8 @@ program
 
 program
     .command("top [timeline]")
-    .action((timeline) => {
-
+    .action(async (timeline) => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
         if (timeline)
             showPostsByTimeline(timeline);
 
@@ -181,8 +182,8 @@ program
 program
     .command("tag [tag]")
     .alias("t")
-    .action((tag) => {
-
+    .action(async (tag) => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
         if (tag) showPostsByTags(tag);
 
         else {
@@ -197,7 +198,8 @@ program
 program
     .command("latest")
     .alias("l")
-    .action(() => {
+    .action(async () => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
         countdown.start();
         crawler.fetchLatest().then(data => {
             countdown.stop();
@@ -209,14 +211,16 @@ program
 program
     .command("bookmark")
     .alias("bm")
-    .action(() => {
+    .action(async () => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
         postBookmarkPrompt();
     })
 
 program
     .command("search <keyword>")
     .alias("s")
-    .action((keyword) => {
+    .action(async (keyword) => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
         countdown.start();
         crawler.searchPost(keyword).then(data => {
             countdown.stop();
@@ -234,7 +238,8 @@ program
     .command("author <username>")
     .option("-p, --profile", "Show author profile")
     .alias("a")
-    .action((username, cmd) => {
+    .action(async (username, cmd) => {
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
         if (cmd.profile) {
             showAuthorProfile(username);
         } else {
