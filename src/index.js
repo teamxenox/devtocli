@@ -253,7 +253,8 @@ program
     })
 
 // error on unknown commands
-program.arguments('<command>').action(cmd => {
+program.arguments('<command>').action(async cmd => {
+    await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line'); 
 	program.outputHelp();
 	console.log(`  ` + chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`));
 	console.log();
