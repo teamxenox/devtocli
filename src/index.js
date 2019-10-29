@@ -170,7 +170,7 @@ program
 program
     .command("top [timeline]")
     .action(async (timeline) => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         if (timeline)
             showPostsByTimeline(timeline);
 
@@ -183,7 +183,7 @@ program
     .command("tag [tag]")
     .alias("t")
     .action(async (tag) => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         if (tag) showPostsByTags(tag);
 
         else {
@@ -199,7 +199,7 @@ program
     .command("latest")
     .alias("l")
     .action(async () => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         countdown.start();
         crawler.fetchLatest().then(data => {
             countdown.stop();
@@ -212,7 +212,7 @@ program
     .command("bookmark")
     .alias("bm")
     .action(async () => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         postBookmarkPrompt();
     })
 
@@ -220,7 +220,7 @@ program
     .command("search <keyword>")
     .alias("s")
     .action(async (keyword) => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         countdown.start();
         crawler.searchPost(keyword).then(data => {
             countdown.stop();
@@ -239,7 +239,7 @@ program
     .option("-p, --profile", "Show author profile")
     .alias("a")
     .action(async (username, cmd) => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         if (cmd.profile) {
             showAuthorProfile(username);
         } else {
@@ -254,7 +254,7 @@ program
 
 // error on unknown commands
 program.arguments('<command>').action(async cmd => {
-    await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line'); 
+    await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white'); 
 	program.outputHelp();
 	console.log(`  ` + chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`));
 	console.log();
@@ -266,7 +266,7 @@ program.parse(process.argv);
 
 if (program.args.length === 0) {
     (async () => {
-        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line');
+        await showBanner('Devto', 'Browse and Search Dev.to Posts from Command Line', 'white');
         countdown.start();
         crawler.fetchHome().then(data => {
             countdown.stop();
