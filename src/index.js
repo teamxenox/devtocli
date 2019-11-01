@@ -22,7 +22,6 @@ escExit();
 
 const openLink = (answers) => {
     open(articles.find(data => data.title === answers.title).link);
-    // process.exit();
 }
 
 /**
