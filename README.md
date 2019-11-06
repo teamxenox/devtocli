@@ -8,7 +8,6 @@ Wanted to get [Dev.to](https://www.dev.to/) on your terminal? Ahoy! now you can.
 
 [![asciicast](https://asciinema.org/a/279489.svg)](https://asciinema.org/a/279489)
 
-
 ## Prerequisites
 
 Before running this locally you must have these installed
